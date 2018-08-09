@@ -2,42 +2,49 @@
 
 /**
  * Data objekt limitu
+ * @deprecated
  */
 class CtlmLimit {
 
 	/**
 	 * minimalni vyse uveru
 	 * @var int
+     * @deprecated
 	 */
 	public $minuver;
 
 	/**
 	 * maximalni vyse uveru
 	 * @var int
+     * @deprecated
 	 */
 	public $maxuver;
 	
 	/**
 	 * minimalni pocet splatek
 	 * @var int
+     * @deprecated
 	 */
 	public $minpocspl;
 	
 	/**
 	 * maximalni pocet splatek
 	 * @var int
+     * @deprecated
 	 */
 	public $maxpocspl;
 	
 	/**
 	 * minimalni odklad splatek
 	 * @var int
+     * @deprecated
 	 */
 	public $minodklad;
 	
 	/**
 	 * maximalni odklad splatek
 	 * @var int
+     * @deprecated
 	 */
 	public $maxodklad;
 	
@@ -47,6 +54,7 @@ class CtlmLimit {
 	 * 0 - odklad muze byt nastaveni na 0 mesicu
 	 * 
 	 * @var int
+     * @deprecated
 	 */
 	public $reqodklad;
 	
@@ -59,6 +67,7 @@ class CtlmLimit {
 	 * @param int $maxpocspl maximalni pocet splatek
 	 * @param int $minodklad minimalni odklad splatek
 	 * @param int $maxodklad maximalni odklad splatek
+     * @deprecated
 	 */
 	public function __construct($minuver, $maxuver, $minpocspl, $maxpocspl, $minodklad = null, $maxodklad = null, $reqodklad = null) 
 	{

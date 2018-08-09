@@ -2,24 +2,28 @@
 
 /**
  * Data objekt baremu
+ * @deprecated
  */
 class CtlmBarem {
 	
 	/**
 	 * id baremu v ciselniku
 	 * @var string
+     * @deprecated
 	 */
 	public $id;
 	
 	/**
 	 * nazev baremu
 	 * @var string
+     * @deprecated
 	 */
 	public $name;
 	
 	/**
 	 * definice limitu baremu
 	 * @var CtlmLimit
+     * @deprecated
 	 */	
 	public $limit;
 	
@@ -31,12 +35,14 @@ class CtlmBarem {
 	 *  percent - platbaValue obsahuje hodnotu procent z cenyZbozi (primou platbu je potreba dopocitat)
 	 *  
 	 * @var string
+     * @deprecated
 	 */
 	public $platba;
 	
 	/**
 	 * prima platba
 	 * @var unknown
+     * @deprecated
 	 */
 	public $platbaValue;
 	
@@ -45,6 +51,7 @@ class CtlmBarem {
 	 * @param string $id id baremu v ciselniku
 	 * @param string $name nazev baremu
 	 * @param CtlmLimit $limit definice limitu baremu
+     * @deprecated
 	 */
 	public function __construct($id, $name, CtlmLimit $limit = null, $platba, $platbaValue) 
 	{
