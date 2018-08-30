@@ -75,6 +75,11 @@ class HelloBankApi {
     private $incomeType;
 
     /**
+     * @var AjaxHandler
+     */
+    private $ajaxHandler;
+
+    /**
      * HelloBankApi constructor.
      *
      * @param int                        $merchantId
@@ -102,8 +107,9 @@ class HelloBankApi {
      * @param $url
      * @return bool|string
      * @throws InvalidRequestException
+     * @internal
      */
-    private function getResourceFromUrl($url) {
+    public function getResourceFromUrl($url) {
         if (Strings::startsWith($url, 'file://')) {
             $contents = file_get_contents($url);
         } else {
@@ -189,9 +195,15 @@ class HelloBankApi {
 
     /**
      * @return LoanCalculator
+     * @throws InvalidRequestException
      */
     public function getLoanCalculator() {
-        return new LoanCalculator($this);
+        $url = self::getUrlForVendorAndEnvironment(
+            $this->merchantId,
+            $this->environment,
+            self::REQUEST_TYPE_CALCULATOR
+        );
+        return new LoanCalculator($this, $url);
     }
 
     /**

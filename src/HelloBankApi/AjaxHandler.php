@@ -37,6 +37,8 @@ class AjaxHandler {
 
     /**
      * @param RequestInterface $request
+     * @return ResponseInterface
+     * @throws \Exception
      */
     public function handleRequest(RequestInterface $request) {
         $query = self::parseQuery($request);
@@ -119,10 +121,38 @@ class AjaxHandler {
 
     /**
      * @param $query
+     * @return ResponseInterface
      * @throws \Exception
-     * @todo Implement
      */
     private function calculate($query) {
-        throw new \Exception('This is not yet implemented.');
+        $queryToCalculatorMapping = [
+            'kodBaremu' => 'setBaremCode',
+            'cenaZbozi' => 'setTotalPrice',
+            'kodPojisteni' => 'setInsuranceCode',
+            'primaPlatba' => 'setFirstInstallment',
+            'pocetSplatek' => 'setInstallmentAmount',
+            'odklad' => 'setFirstInstallmentPause',
+        ];
+
+        $calculator = $this->api->getLoanCalculator();
+        foreach ($query as $key => $value) {
+            if (array_key_exists($key, $queryToCalculatorMapping)) {
+                $calculator->{$queryToCalculatorMapping[$key]}($value);
+            }
+        }
+
+        try {
+            $content = $calculator->resolve();
+        } catch (\Exception $e) {
+            $content = [
+                'error' => true,
+            ];
+        }
+        $response = $this->responseFactory->createResponse();
+        $response = $response->withHeader('content-type', 'application/json; charset=utf-8');
+        $response = $response->withBody(StreamFactoryDiscovery::find()->createStream(
+            json_encode($content)
+        ));
+        return $response;
     }
 }

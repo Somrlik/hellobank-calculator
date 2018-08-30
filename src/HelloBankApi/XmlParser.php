@@ -146,4 +146,34 @@ abstract class XmlParser {
         return $incomeTypes;
     }
 
+    /**
+     * @param $content
+     * @return mixed
+     * @throws InvalidRequestException
+     */
+    public static function parseLoanCalculatorResponse($content) {
+        $content = self::fixXml($content);
+        $xml = simplexml_load_string($content);
+
+        $error = $xml->xpath('/webkalkulator/chyba');
+        if (! empty($error)) {
+            throw new InvalidRequestException('There was an error in the incoming XML ' . $error[0][0]);
+        }
+
+        $out = self::loadXmlElementIntoArray($xml);
+
+        return $out;
+    }
+
+    /**
+     * @param \SimpleXMLElement $parent
+     * @todo This is quick and dirty, should probably be written better
+     * @return mixed
+     */
+    private static function loadXmlElementIntoArray(\SimpleXMLElement $parent) {
+        $json = json_encode($parent);
+        $out = json_decode($json, true);
+        return $out;
+    }
+
 }

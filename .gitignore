@@ -6,3 +6,4 @@ composer-test.lock
 .idea
 .DS_STORE
 *.swp
+in.xml
