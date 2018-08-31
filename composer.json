@@ -11,20 +11,20 @@
             "homepage": "https://somrlik.cz"
         }
     ],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "require": {
         "php": ">=7.0",
         "ext-SimpleXML": "^7.0",
-        "psr/http-factory": "^1.0@dev",
-        "nette/utils": "^3.0@dev",
-        "php-http/httplug": "^1.2@dev",
-        "php-http/discovery": "^1.3@dev",
-        "php-http/message": "^1.6@dev"
+        "psr/http-factory": "^1.0",
+        "nette/utils": "^2.5",
+        "php-http/httplug": "^1.1",
+        "php-http/discovery": "^1.4",
+        "php-http/message": "^1.7"
     },
     "require-dev": {
-        "phpunit/phpunit": "^4.8.35 || ~5.7 || ~6.4 || ~7.0",
-        "guzzlehttp/guzzle": "~6.0",
-        "php-http/guzzle6-adapter": "^1.2@dev"
+        "phpunit/phpunit": "^6.5",
+        "guzzlehttp/guzzle": "^6.3",
+        "php-http/guzzle6-adapter": "^1.1"
     },
     "autoload": {
         "psr-4": {
