@@ -68,6 +68,7 @@ class Barem implements \JsonSerializable {
             'name' => $this->name,
             'platba' => $this->typeOfFirstInstallment,
             'platbaValue' => $this->firstInstallment,
+            'limit' => $this->limit,
         ];
     }
 
