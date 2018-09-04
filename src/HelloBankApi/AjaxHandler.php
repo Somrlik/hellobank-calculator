@@ -130,7 +130,7 @@ class AjaxHandler {
             'cenaZbozi' => 'setTotalPrice',
             'kodPojisteni' => 'setInsuranceCode',
             'primaPlatba' => 'setFirstInstallment',
-            'pocetSplatek' => 'setInstallmentAmount',
+            'pocetSplatek' => 'setInstallmentCount',
             'odklad' => 'setFirstInstallmentPause',
         ];
 
@@ -144,9 +144,7 @@ class AjaxHandler {
         try {
             $content = $calculator->resolve();
         } catch (\Exception $e) {
-            $content = [
-                'error' => true,
-            ];
+            return $this->getErrorResponse($e->getMessage());
         }
         $response = $this->responseFactory->createResponse();
         $response = $response->withHeader('content-type', 'application/json; charset=utf-8');
