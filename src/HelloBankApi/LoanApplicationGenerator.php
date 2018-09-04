@@ -109,7 +109,7 @@ class LoanApplicationGenerator {
      * @param string $environment
      * @return mixed
      */
-    private static function getUrlForEnvironment(string $environment) {
+    public static function getUrlForEnvironment(string $environment) {
         $mapping = [
             HelloBankApi::ENVIRONMENT_TEST =>
                 'https://www.cetelem.cz:8654/cetelem2_webshop.php/zadost-o-pujcku/on-line-zadost-o-pujcku',
