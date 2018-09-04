@@ -15,7 +15,7 @@
     "require": {
         "php": ">=7.0",
         "ext-SimpleXML": "^7.0",
-        "ext-json": "^7.0",
+        "ext-json": "^1.0",
         "psr/http-factory": "^1.0",
         "nette/utils": "~2.2, >=2.2.2",
         "php-http/httplug": "^1.1",
