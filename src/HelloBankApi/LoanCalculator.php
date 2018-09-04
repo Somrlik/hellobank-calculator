@@ -93,7 +93,7 @@ class LoanCalculator {
             $url = $this->url . '&' . $query;
             try {
                 $resource = $this->api->getResourceFromUrl($url);
-                $this->response = XmlParser::parseLoanCalculatorResponse($resource);
+                $this->response = XmlParser::parseLoanCalculatorResponse($resource, $this->api->getCurrencyFormatter());
             } catch (\Exception $e) {
                 throw new InvalidStateException("Failed to get url {$url}");
             }

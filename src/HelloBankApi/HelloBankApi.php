@@ -9,7 +9,6 @@ use Http\Discovery\MessageFactoryDiscovery;
 use Nette\Utils\Arrays;
 use Nette\Utils\Strings;
 use Psr\Http\Message\RequestFactoryInterface;
-use Psr\Http\Message\ResponseFactoryInterface;
 use Somrlik\HelloBankApi\DataObjects\Barem;
 
 class HelloBankApi {
@@ -277,6 +276,10 @@ class HelloBankApi {
         }
 
         throw new InvalidRequestException('Requested invalid environment ' . $environment . ' and type ' . $type);
+    }
+
+    public function getLoanApplicationGenerator() {
+        return new LoanApplicationGenerator($this, $this->requestFactory);
     }
 
 }

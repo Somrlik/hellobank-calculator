@@ -147,11 +147,12 @@ abstract class XmlParser {
     }
 
     /**
-     * @param $content
+     * @param                            $content
+     * @param CurrencyFormatterInterface $currencyFormatter
      * @return mixed
      * @throws InvalidRequestException
      */
-    public static function parseLoanCalculatorResponse($content) {
+    public static function parseLoanCalculatorResponse($content, CurrencyFormatterInterface $currencyFormatter) {
         $content = self::fixXml($content);
         $xml = simplexml_load_string($content);
 
@@ -160,20 +161,54 @@ abstract class XmlParser {
             throw new InvalidRequestException('There was an error in the incoming XML ' . $error[0][0]);
         }
 
-        $out = self::loadXmlElementIntoArray($xml);
+        $messages = [];
+        foreach ((array) $xml->info->zprava as $message) {
+            $messages[] = self::fixCzechForCalculatorMessage($message, $currencyFormatter);
+        }
+        $message = implode("\n", $messages);
+        $out['info'] = $message;
+        $out['status'] = (string) $xml->status;
+
+        foreach ((array)$xml->vysledek as $key => $value) {
+            if ($key == 'opce') continue;
+            if (preg_match('/^[0-9]+,[0-9]+$/', $value))
+                $value = str_replace(',', '.', $value);
+
+            if (is_numeric($value))
+                $out[$key] = (float) $value;
+            else
+                $out[$key] = (string) $value;
+        }
+
+        if ((int) $xml->vysledek->opce->attributes()->enabled == 1) {
+            $opce = [];
+            foreach ((array)$xml->vysledek->opce as $key => $value) {
+                if (property_exists($opce, $key))
+                    $opce[$key] = (string) $value;
+            }
+            $out['opce'] = $opce;
+        }
 
         return $out;
     }
 
-    /**
-     * @param \SimpleXMLElement $parent
-     * @todo This is quick and dirty, should probably be written better
-     * @return mixed
-     */
-    private static function loadXmlElementIntoArray(\SimpleXMLElement $parent) {
-        $json = json_encode($parent);
-        $out = json_decode($json, true);
-        return $out;
-    }
 
+    private static function fixCzechForCalculatorMessage($message, CurrencyFormatterInterface $currencyFormatter) {
+        $mapping = [
+            'pocet' => 'počet',
+            'Prima' => 'Přímá',
+        ];
+
+        foreach ($mapping as $pattern => $replacement) {
+            $message = str_replace($pattern, $replacement, $message);
+        }
+
+        if (Strings::contains($message, 'Přímá platba')) {
+            $message = Strings::replace($message, '/[0-9]+/', function ($match) use ($currencyFormatter) {
+                return $currencyFormatter->formatCurrency($match[0] * 100);
+            });
+        }
+
+        return $message;
+    }
 }
