@@ -9,6 +9,6 @@ final class CZKCurrencyFormatter implements CurrencyFormatterInterface {
      */
     function formatCurrency(int $money): string
     {
-        return number_format($money / 100, 0, '.', ' ') . ' Kč';
+        return number_format($money / 100, 0, '.', '&nbsp;') . '&nbsp;Kč';
     }
 }
