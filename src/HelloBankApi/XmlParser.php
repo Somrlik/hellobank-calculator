@@ -180,13 +180,15 @@ abstract class XmlParser {
                 $out[$key] = (string) $value;
         }
 
-        if ((int) $xml->vysledek->opce->attributes()->enabled == 1) {
-            $opce = [];
-            foreach ((array)$xml->vysledek->opce as $key => $value) {
-                if (property_exists($opce, $key))
-                    $opce[$key] = (string) $value;
+        if ($out['status'] !== 'error') {
+            if ((int) $xml->vysledek->opce->attributes()->enabled == 1) {
+                $opce = [];
+                foreach ((array)$xml->vysledek->opce as $key => $value) {
+                    if (property_exists($opce, $key))
+                        $opce[$key] = (string) $value;
+                }
+                $out['opce'] = $opce;
             }
-            $out['opce'] = $opce;
         }
 
         return $out;
